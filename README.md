@@ -23,6 +23,7 @@
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
+Backend to login, register and CRUD users using JWT
 
 Developed with [Nest](https://github.com/nestjs/nest) framework.
 
@@ -63,3 +64,4 @@ $ npm run test:cov
 
 * POST | GET | PATCH | DELETE``` localhost:3000/auth```
 * POST ``` localhost:3000/auth/login```
+* POST ``` localhost:3000/auth/register```
