@@ -73,15 +73,14 @@ export class AuthService {
       return new UnauthorizedException('Not valid credentials - Email');
     }
 
-    console.log({user});
+    // console.log({user});
     if(!bcryptjs.compareSync(password, user.password)) {
       return new UnauthorizedException('Not valid credentials - Password');
     }
 
-    // TODO Generate JWT
-
     const { password:_, ...rest } = user.toJSON();
 
+    // Generate JWT
     return {
       user: rest,
       token: this.getJwtToken({id: user.id }),
