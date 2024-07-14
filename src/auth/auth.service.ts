@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { User } from "./entities/user.entity";
@@ -6,6 +6,7 @@ import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 
 import * as bcryptjs from 'bcryptjs';
+import { LoginDto } from "./dto/login.dto";
 
 @Injectable()
 export class AuthService {
@@ -27,8 +28,6 @@ export class AuthService {
         password: bcryptjs.hashSync( password, 10),
         ...userData
       });
-
-      // TODO Generate JWT
 
       // Save the user
       await newUser.save();
@@ -60,5 +59,29 @@ export class AuthService {
 
   remove(id: number) {
     return `This action removes a #${id} auth`;
+  }
+
+  async login(loginDto: LoginDto) {
+    const { email , password} = loginDto;
+
+    const user:any = await this.userModel.findOne({email});
+
+    if(!user){
+      return new UnauthorizedException('Not valid credentials - Email');
+    }
+
+    console.log({user});
+    if(!bcryptjs.compareSync(password, user.password)) {
+      return new UnauthorizedException('Not valid credentials - Password');
+    }
+
+    // TODO Generate JWT
+
+    const { password:_, ...rest } = user.toJSON();
+
+    return {
+      user: rest,
+      token: 'ABC23.fad23234.asdfasf'
+    };
   }
 }

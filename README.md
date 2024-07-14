@@ -59,3 +59,7 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+# API
+
+* POST | GET | PATCH | DELETE``` localhost:3000/auth```
+* POST ``` localhost:3000/auth/login```
